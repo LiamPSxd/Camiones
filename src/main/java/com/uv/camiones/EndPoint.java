@@ -1,5 +1,7 @@
 package com.uv.camiones;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -12,70 +14,81 @@ import https.t4is_uv_mx.camiones.EliminarCamionRequest;
 import https.t4is_uv_mx.camiones.EliminarCamionResponse;
 import https.t4is_uv_mx.camiones.ModificarCamionRequest;
 import https.t4is_uv_mx.camiones.ModificarCamionResponse;
-import https.t4is_uv_mx.camiones.ReadCamionRequest;
-import https.t4is_uv_mx.camiones.ReadCamionResponse;
-import https.t4is_uv_mx.camiones.ReadCamionResponse.Camion.Carga;
-import https.t4is_uv_mx.camiones.ReadCamionResponse.Camion.Ubicacion;
-import https.t4is_uv_mx.camiones.ModificarCamionResponse.Camion.Carga;
-import https.t4is_uv_mx.camiones.ModificarCamionResponse.Camion.Ubicacion;
+import https.t4is_uv_mx.camiones.ReadAllCamionResponse;
+import https.t4is_uv_mx.camiones.ReadOneCamionRequest;
+import https.t4is_uv_mx.camiones.ReadOneCamionResponse;
 
 @Endpoint
 public class EndPoint{
     @Autowired
     private ICamion iCamion;
 
-    @PayloadRoot(localPart = "ReadCamionRequest", namespace = "https://t4is.uv.mx/camiones")
+    @PayloadRoot(localPart = "ReadOneCamionRequest", namespace = "https://t4is.uv.mx/camiones")
     @ResponsePayload
-    public ReadCamionResponse read(@RequestPayload ReadCamionRequest request){
-        ReadCamionResponse response = new ReadCamionResponse();
+    public ReadOneCamionResponse read(@RequestPayload ReadOneCamionRequest request){
+        ReadOneCamionResponse response = new ReadOneCamionResponse();
+        Camion camion = iCamion.findById(request.getId()).get();
 
-        if(request.getId() > -1){
-            Camion camion = iCamion.findById(request.getId()).get();
+        if(camion != null){
+            ReadOneCamionResponse.Camion.Carga carga = new ReadOneCamionResponse.Camion.Carga();
+            carga.setObjeto(camion.getObjeto());
+            carga.setCantidad(camion.getCantidad());
 
-            if(camion != null){
-                ReadCamionResponse.Camion.Carga carga = new ReadCamionResponse.Camion.Carga();
+            ReadOneCamionResponse.Camion.Ubicacion ubicacion = new ReadOneCamionResponse.Camion.Ubicacion();
+            ubicacion.setLatitud(camion.getLatitud());
+            ubicacion.setLongitud(camion.getLongitud());
+
+            ReadOneCamionResponse.Camion readCamion = new ReadOneCamionResponse.Camion();
+            readCamion.setId(camion.getId());
+            readCamion.setChofer(camion.getChofer());
+            readCamion.setCarga(carga);
+            readCamion.setUbicacion(ubicacion);
+
+            ReadOneCamionResponse.Camion.Temperatura temperatura = new ReadOneCamionResponse.Camion.Temperatura();
+            if(camion.getTemperatura().size() > 0)
+                for(Double valor : camion.getTemperatura()) temperatura.getCelsius().add(valor);
+
+            readCamion.setTemperatura(temperatura);
+
+            response.setStatus("Success");
+            response.setCamion(readCamion);
+        }else response.setStatus("Failed");
+
+        return response;
+    }
+
+    @PayloadRoot(localPart = "ReadAllCamionRequest", namespace = "https://t4is.uv.mx/camiones")
+    @ResponsePayload
+    public ReadAllCamionResponse read(){
+        ReadAllCamionResponse response = new ReadAllCamionResponse();
+        Iterable<Camion> camiones = iCamion.findAll();
+
+        if(camiones != null){
+            for(Camion camion : camiones){
+                ReadAllCamionResponse.Camion.Carga carga = new ReadAllCamionResponse.Camion.Carga();
                 carga.setObjeto(camion.getObjeto());
                 carga.setCantidad(camion.getCantidad());
 
-                ReadCamionResponse.Camion.Ubicacion ubicacion = new ReadCamionResponse.Camion.Ubicacion();
+                ReadAllCamionResponse.Camion.Ubicacion ubicacion = new ReadAllCamionResponse.Camion.Ubicacion();
                 ubicacion.setLatitud(camion.getLatitud());
                 ubicacion.setLongitud(camion.getLongitud());
 
-                ReadCamionResponse.Camion readCamion = new ReadCamionResponse.Camion();
+                ReadAllCamionResponse.Camion readCamion = new ReadAllCamionResponse.Camion();
                 readCamion.setId(camion.getId());
                 readCamion.setChofer(camion.getChofer());
-                readCamion.setTemperaturaCelsius(camion.getTemperaturaCelsius());
                 readCamion.setCarga(carga);
                 readCamion.setUbicacion(ubicacion);
 
-                response.setStatus("Success");
+                ReadAllCamionResponse.Camion.Temperatura temperatura = new ReadAllCamionResponse.Camion.Temperatura();
+                if(camion.getTemperatura().size() > 0)
+                    for(Double valor : camion.getTemperatura()) temperatura.getCelsius().add(valor);
+
+                readCamion.setTemperatura(temperatura);
+
                 response.getCamion().add(readCamion);
-            }else response.setStatus("Failed");
-        }else if(request.getId() == -1){
-            Iterable<Camion> camiones = iCamion.findAll();
+            }
 
-            if(camiones != null){
-                for(Camion camion : camiones){
-                    ReadCamionResponse.Camion.Carga carga = new Carga();
-                    carga.setObjeto(camion.getObjeto());
-                    carga.setCantidad(camion.getCantidad());
-
-                    ReadCamionResponse.Camion.Ubicacion ubicacion = new Ubicacion();
-                    ubicacion.setLatitud(camion.getLatitud());
-                    ubicacion.setLongitud(camion.getLongitud());
-
-                    ReadCamionResponse.Camion readCamion = new ReadCamionResponse.Camion();
-                    readCamion.setId(camion.getId());
-                    readCamion.setChofer(camion.getChofer());
-                    readCamion.setTemperaturaCelsius(camion.getTemperaturaCelsius());
-                    readCamion.setCarga(carga);
-                    readCamion.setUbicacion(ubicacion);
-
-                    response.getCamion().add(readCamion);
-                }
-
-                response.setStatus("Success");
-            }else response.setStatus("Failed");
+            response.setStatus("Success");
         }else response.setStatus("Failed");
 
         return response;
@@ -89,11 +102,15 @@ public class EndPoint{
         if(request != null){
             Camion camion = new Camion();
             camion.setChofer(request.getChofer());
-            camion.setTemperaturaCelsius(request.getTemperaturaCelsius());
             camion.setObjeto(request.getObjeto());
             camion.setCantidad(request.getCantidad());
             camion.setLatitud(request.getLatitud());
             camion.setLongitud(request.getLongitud());
+
+            ArrayList<Double> temperaturas = new ArrayList<Double>();
+            temperaturas.add(request.getCelsius());
+
+            camion.setTemperatura(temperaturas);
 
             iCamion.save(camion);
 
@@ -111,11 +128,17 @@ public class EndPoint{
 
         if(camion != null){
             camion.setChofer(request.getChofer());
-            camion.setTemperaturaCelsius(request.getTemperaturaCelsius());
             camion.setObjeto(request.getObjeto());
             camion.setCantidad(request.getCantidad());
             camion.setLatitud(request.getLatitud());
             camion.setLongitud(request.getLongitud());
+
+            ArrayList<Double> temperaturas = new ArrayList<Double>();
+            for(String valor : request.getCelsius().split(",")){
+                temperaturas.add(Double.parseDouble(valor));
+            }
+
+            camion.setTemperatura(temperaturas);
             iCamion.save(camion);
 
             ModificarCamionResponse.Camion.Carga carga = new ModificarCamionResponse.Camion.Carga();
@@ -128,9 +151,17 @@ public class EndPoint{
 
             ModificarCamionResponse.Camion modificarCamion = new ModificarCamionResponse.Camion();
             modificarCamion.setChofer(camion.getChofer());
-            modificarCamion.setTemperaturaCelsius(camion.getTemperaturaCelsius());
             modificarCamion.setCarga(carga);
             modificarCamion.setUbicacion(ubicacion);
+
+            if(camion.getTemperatura().size() > 0){
+                for(Double valor : camion.getTemperatura()){
+                    ModificarCamionResponse.Camion.Temperatura temperatura = new ModificarCamionResponse.Camion.Temperatura();
+                    temperatura.setCelsius(valor);
+
+                    modificarCamion.getTemperatura().add(temperatura);
+                }
+            }
 
             response.setStatus("Success");
             response.setCamion(modificarCamion);

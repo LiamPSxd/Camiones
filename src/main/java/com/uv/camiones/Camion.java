@@ -1,5 +1,7 @@
 package com.uv.camiones;
 
+import java.util.ArrayList;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,7 +13,7 @@ public class Camion{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String chofer;
-    private Double temperaturaCelsius;
+    private ArrayList<Double> temperatura;
     private String objeto;
     private Integer cantidad;
     private Double latitud;
@@ -33,12 +35,12 @@ public class Camion{
         this.chofer = chofer;
     }
 
-    public Double getTemperaturaCelsius(){
-        return temperaturaCelsius;
+    public ArrayList<Double> getTemperatura(){
+        return temperatura;
     }
 
-    public void setTemperaturaCelsius(Double temperaturaCelsius){
-        this.temperaturaCelsius = temperaturaCelsius;
+    public void setTemperatura(ArrayList<Double> temperatura){
+        this.temperatura = temperatura;
     }
 
     public String getObjeto(){
