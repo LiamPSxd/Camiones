@@ -1,0 +1,10 @@
+com\uv\camiones\EndPoint.class
+com\uv\camiones\Camion.class
+https\t4is_uv_mx\camiones\ReadOneCamionResponse$Camion$Temperatura.class
+com\uv\camiones\CamionesApplication.class
+https\t4is_uv_mx\camiones\ReadOneCamionResponse$Camion$Ubicacion.class
+com\uv\camiones\ICamion.class
+https\t4is_uv_mx\camiones\package-info.class
+https\t4is_uv_mx\camiones\ReadOneCamionResponse$Camion$Carga.class
+https\t4is_uv_mx\camiones\ReadOneCamionResponse.class
+com\uv\camiones\Configuracion.class

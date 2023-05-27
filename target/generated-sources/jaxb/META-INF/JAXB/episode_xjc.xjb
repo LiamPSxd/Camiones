@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb">
+  <!--
+
+Este archivo ha sido generado por la arquitectura JavaTM para la implantación de la referencia de enlace (JAXB) XML v2.3.2 
+Visite <a href="https://javaee.github.io/jaxb-v2/">https://javaee.github.io/jaxb-v2/</a> 
+Todas las modificaciones realizadas en este archivo se perderán si se vuelve a compilar el esquema de origen. 
+Generado el: 2023.05.27 a las 10:44:25 AM CDT 
+
+  -->
+  <bindings scd="x-schema::tns" xmlns:tns="https://t4is.uv.mx/camiones">
+    <schemaBindings map="false">
+      <package name="https.t4is_uv_mx.camiones"/>
+    </schemaBindings>
+    <bindings scd="tns:ReadOneCamionResponse">
+      <class ref="https.t4is_uv_mx.camiones.ReadOneCamionResponse"/>
+    </bindings>
+    <bindings scd="tns:ReadAllCamionResponse">
+      <class ref="https.t4is_uv_mx.camiones.ReadAllCamionResponse"/>
+    </bindings>
+    <bindings scd="tns:ModificarCamionResponse">
+      <class ref="https.t4is_uv_mx.camiones.ModificarCamionResponse"/>
+    </bindings>
+    <bindings scd="tns:ReadOneCamionRequest">
+      <class ref="https.t4is_uv_mx.camiones.ReadOneCamionRequest"/>
+    </bindings>
+    <bindings scd="tns:AgregarCamionRequest">
+      <class ref="https.t4is_uv_mx.camiones.AgregarCamionRequest"/>
+    </bindings>
+    <bindings scd="tns:AgregarCamionResponse">
+      <class ref="https.t4is_uv_mx.camiones.AgregarCamionResponse"/>
+    </bindings>
+    <bindings scd="tns:ModificarCamionRequest">
+      <class ref="https.t4is_uv_mx.camiones.ModificarCamionRequest"/>
+    </bindings>
+    <bindings scd="tns:EliminarCamionRequest">
+      <class ref="https.t4is_uv_mx.camiones.EliminarCamionRequest"/>
+    </bindings>
+    <bindings scd="tns:EliminarCamionResponse">
+      <class ref="https.t4is_uv_mx.camiones.EliminarCamionResponse"/>
+    </bindings>
+  </bindings>
+</bindings>
+
