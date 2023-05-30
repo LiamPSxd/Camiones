@@ -23,7 +23,7 @@ public class Configuracion extends WsConfigurerAdapter{
     @Bean
     public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServelet(ApplicationContext applicationContext){
         MessageDispatcherServlet servlet = new MessageDispatcherServlet();
-        servlet.setApplicationContext(applicationContext);
+        servlet.setApplicationContext(applicationContext); 
         servlet.setTransformWsdlLocations(true);
 
         return new ServletRegistrationBean<>(servlet, "/ws/*");
