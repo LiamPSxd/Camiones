@@ -12,14 +12,19 @@ import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
 
+//Clase de configuración
+
 @EnableWs
 @Configuration
 public class Configuracion extends WsConfigurerAdapter{
+
+    //Recupera el esquema XSD para generar las clases
     @Bean
     public XsdSchema camionesSchema(){
         return new SimpleXsdSchema(new ClassPathResource("camiones.xsd"));
     }
-
+    
+    //Define el mapeo del servlet
     @Bean
     public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServelet(ApplicationContext applicationContext){
         MessageDispatcherServlet servlet = new MessageDispatcherServlet();
@@ -29,6 +34,7 @@ public class Configuracion extends WsConfigurerAdapter{
         return new ServletRegistrationBean<>(servlet, "/ws/*");
     }
 
+    //Establece el contexto donde funcionará el servicio (Puerto, uri, namespace y esquema)
     @Bean(name = "camiones")
     public DefaultWsdl11Definition defaultWsdl11DefinitionPista(XsdSchema camionesSchema){
         DefaultWsdl11Definition wsdl = new DefaultWsdl11Definition();

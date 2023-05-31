@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+//Clase Camion que sirve de apoyo para guardar los datos de las entidades que se registrarán.
+
 @Entity
 public class Camion{
     @Id

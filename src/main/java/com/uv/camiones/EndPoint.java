@@ -18,11 +18,19 @@ import https.t4is_uv_mx.camiones.ReadAllCamionResponse;
 import https.t4is_uv_mx.camiones.ReadOneCamionRequest;
 import https.t4is_uv_mx.camiones.ReadOneCamionResponse;
 
+//Clase que funciona como el EndPoint del servicio SOAP
 @Endpoint
 public class EndPoint{
+
+    //Instancia de interfaz para conectar y generar la base de datos
     @Autowired
     private ICamion iCamion;
-
+    
+    /*
+    Método que recupera un camión en específico (dada su id) que se encuentra registrado en la base de datos: 
+    La request lleva un dato de tipo int (la id del camión) con la cual se hace la solicitud de búsqueda a la 
+    base de datos. Si el resultado es distinto de nulo va a definir los datos que se regresaran en la respuesta
+    */
     @PayloadRoot(localPart = "ReadOneCamionRequest", namespace = "https://t4is.uv.mx/camiones")
     @ResponsePayload
     public ReadOneCamionResponse read(@RequestPayload ReadOneCamionRequest request){
@@ -56,7 +64,12 @@ public class EndPoint{
 
         return response;
     }
-
+    
+    /*
+    Método que recupera todos los camiones que se encuentran registrados en la base de datos: 
+    La request nula solicita todo lo registrado en la base de datos. Si el resultado es distinto 
+    de nulo va a definir los datos que se regresaran en la respuesta por medio de un ciclo for
+    */
     @PayloadRoot(localPart = "ReadAllCamionRequest", namespace = "https://t4is.uv.mx/camiones")
     @ResponsePayload
     public ReadAllCamionResponse read(){
@@ -94,6 +107,11 @@ public class EndPoint{
         return response;
     }
 
+    /*
+    Método que registra en la base de datos un camión con los datos enviados: 
+    La request lleva los 6 atributos del objeto camión y hace la solicitud a la base de datos de registrarlo.
+    Como respuesta regresa si se guardó con éxito o si falló 
+    */
     @PayloadRoot(localPart = "AgregarCamionRequest", namespace = "https://t4is.uv.mx/camiones")
     @ResponsePayload
     public AgregarCamionResponse add(@RequestPayload AgregarCamionRequest request){
@@ -120,6 +138,11 @@ public class EndPoint{
         return response;
     }
 
+    /*
+    Método que modifica en la base de datos un camión con los datos enviados: 
+    La request lleva los 6 atributos del objeto camión además de la id del obejto a modificar y hace
+     la solicitud a la base de datos de actualizarlo. Como respuesta regresa si se guardó con éxito o si falló 
+    */
     @PayloadRoot(localPart = "ModificarCamionRequest", namespace = "https://t4is.uv.mx/camiones")
     @ResponsePayload
     public ModificarCamionResponse update(@RequestPayload ModificarCamionRequest request){
@@ -170,6 +193,11 @@ public class EndPoint{
         return response;
     }
 
+    /*
+    Método que elimina de la base de datos un camión con la id enviada: 
+    La request lleva la id del obejto a eliminar y hace la solicitud a la base de datos de eliminarlo. 
+    Como respuesta regresa si se guardó con éxito o si falló 
+    */
     @PayloadRoot(localPart = "EliminarCamionRequest", namespace = "https://t4is.uv.mx/camiones")
     @ResponsePayload
     public EliminarCamionResponse delete(@RequestPayload EliminarCamionRequest request){
