@@ -140,7 +140,7 @@ public class EndPoint{
 
     /*
     Método que modifica en la base de datos un camión con los datos enviados: 
-    La request lleva los 6 atributos del objeto camión además de la id del obejto a modificar y hace
+    La request lleva los 6 atributos del objeto camión además de la id del objeto a modificar y hace
      la solicitud a la base de datos de actualizarlo. Como respuesta regresa si se guardó con éxito o si falló 
     */
     @PayloadRoot(localPart = "ModificarCamionRequest", namespace = "https://t4is.uv.mx/camiones")
@@ -195,7 +195,7 @@ public class EndPoint{
 
     /*
     Método que elimina de la base de datos un camión con la id enviada: 
-    La request lleva la id del obejto a eliminar y hace la solicitud a la base de datos de eliminarlo. 
+    La request lleva la id del objeto a eliminar y hace la solicitud a la base de datos de eliminarlo. 
     Como respuesta regresa si se guardó con éxito o si falló 
     */
     @PayloadRoot(localPart = "EliminarCamionRequest", namespace = "https://t4is.uv.mx/camiones")
